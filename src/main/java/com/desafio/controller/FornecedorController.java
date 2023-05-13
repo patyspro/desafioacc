@@ -45,8 +45,8 @@ public class FornecedorController {
     public ResponseEntity<String> deletarPorCNPJ(@PathVariable String cpf_cnpj) {
         ResponseEntity<String> response = null;
 
-        if (fornecedorService. buscarPeloCpf_Cnpj(cpf_cnpj).getCpf_cnpj().equals(cpf_cnpj)) {
-            fornecedorService.buscarPeloCpf_Cnpj(cpf_cnpj);
+        if (fornecedorService.buscarPeloCpf_Cnpj(cpf_cnpj).getCpf_cnpj().equals(cpf_cnpj)) {
+            fornecedorService.excluir(cpf_cnpj);
             response = ResponseEntity.status(HttpStatus.NO_CONTENT).body("Excluído");
         } else {
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -63,14 +63,13 @@ public class FornecedorController {
 
 
     @GetMapping("/cpf_cnpj/{cpf_cnpj}")
-    public ResponseEntity<String> buscarPeloCnpj(@PathVariable String cpf_cnpj) {
-        ResponseEntity<String> response = null;
+    public ResponseEntity<Fornecedor> buscarPeloCnpj(@PathVariable String cpf_cnpj) {
+        ResponseEntity<Fornecedor> response = null;
 
         if (fornecedorService.buscarPeloCpf_Cnpj(cpf_cnpj).getCpf_cnpj().equals(cpf_cnpj)) {
-            fornecedorService.buscarPeloCpf_Cnpj(cpf_cnpj);
-            response = ResponseEntity.ok(cpf_cnpj);
+            response = ResponseEntity.ok(fornecedorService.buscarPeloCpf_Cnpj(cpf_cnpj));
         } else {
-            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("CPF/CNPJ nao encontrado");
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         return response;

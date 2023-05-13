@@ -1,6 +1,8 @@
 package com.desafio.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -22,17 +24,21 @@ public class Fornecedor {
     private Date data_nascimento;
 
     private String rg;
+    @ManyToMany(mappedBy = "fornecedoresEmpresa")
+    @JsonBackReference
+    List<Empresa> empresas;
 
     public Fornecedor() {
     }
 
-    public Fornecedor(String cpf_cnpj, String nome, String email, String cep, Date data_nascimento, String rg) {
+    public Fornecedor(String cpf_cnpj, String nome, String email, String cep, Date data_nascimento, String rg, List<Empresa> empresas) {
         this.cpf_cnpj = cpf_cnpj;
         this.nome = nome;
         this.email = email;
         this.cep = cep;
         this.data_nascimento = data_nascimento;
         this.rg = rg;
+        this.empresas = empresas;
     }
 
     public String getCpf_cnpj() {
@@ -83,7 +89,13 @@ public class Fornecedor {
         this.cep = cep;
     }
 
+    public List<Empresa> getEmpresas() {
+        return empresas;
+    }
 
+    public void setEmpresas(List<Empresa> empresas) {
+        this.empresas = empresas;
+    }
 
     @Override
     public String toString() {
